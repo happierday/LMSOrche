@@ -48,7 +48,7 @@ public class AdminController{
 	@RequestMapping(value="/books", method=RequestMethod.GET)
 	public ResponseEntity<Object> getBooks(@RequestHeader(value="Accept") String ct,@RequestParam(value="pageNo",required=false) Integer pageNo,
 			@RequestParam(value="search",required=false) String search){
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/books")
+		UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(url+"/books")
 											.queryParam("pageNo", pageNo)
 											.queryParam("search", search);
 		HttpHeaders headers = new HttpHeaders();
