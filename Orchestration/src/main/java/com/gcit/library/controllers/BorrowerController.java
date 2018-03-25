@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,10 +36,10 @@ public class BorrowerController {
 	RestTemplate restTemplate;
 	
 	@RequestMapping(value="/validateCardNo/{cardNo}", method=RequestMethod.GET)
-	public ResponseEntity<Object> validateCardNo(@PathVariable(value="cardNo") Integer cardNo) {
+	public ResponseEntity<Object> validateCardNo(@RequestHeader(value="Accept") String ct,@PathVariable(value="cardNo") Integer cardNo) {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/validateCardNo/"+cardNo);
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET,entity,Object.class);
 		return res;
@@ -57,10 +58,10 @@ public class BorrowerController {
 //	}
 	
 	@RequestMapping(value="/borrowers/{cardNo}", method=RequestMethod.GET)
-	public ResponseEntity<Object> getBorrowerHistory(@PathVariable(value="cardNo") Integer cardNo){
+	public ResponseEntity<Object> getBorrowerHistory(@RequestHeader(value="Accept") String ct,@PathVariable(value="cardNo") Integer cardNo){
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/borrowers/"+cardNo);
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET,entity,Object.class);
 		return res;
@@ -79,10 +80,10 @@ public class BorrowerController {
 //	}
 	
 	@RequestMapping(value="/borrowers/{cardNo}",method=RequestMethod.PUT, consumes = {"application/json"},produces= {"application/json"})
-	public ResponseEntity<Object> returnBook(@RequestBody Loan loan, @PathVariable(value="cardNo") Integer cardNo)  {
+	public ResponseEntity<Object> returnBook(@RequestHeader(value="Accept") String ct,@RequestBody Loan loan, @PathVariable(value="cardNo") Integer cardNo)  {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/borrowers/"+cardNo);
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(loan,headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.PUT,entity,Object.class);
 		return res;
@@ -99,10 +100,10 @@ public class BorrowerController {
 //	}
 	
 	@RequestMapping(value="/borrowers/{cardNo}", method=RequestMethod.POST,consumes= {"application/json"},produces= {"application/json"})
-	public ResponseEntity<Object> checkOutBook(@RequestBody Loan loan,@PathVariable(value="cardNo") Integer cardNo)  {
+	public ResponseEntity<Object> checkOutBook(@RequestHeader(value="Accept") String ct,@RequestBody Loan loan,@PathVariable(value="cardNo") Integer cardNo)  {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/borrowers/"+cardNo);
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(loan,headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.POST,entity,Object.class);
 		return res;

@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,24 +46,23 @@ public class AdminController{
 	 */
 	
 	@RequestMapping(value="/books", method=RequestMethod.GET)
-	public ResponseEntity<Object> getBooks(@RequestParam(value="pageNo",required=false) Integer pageNo,
+	public ResponseEntity<Object> getBooks(@RequestHeader(value="Accept") String ct,@RequestParam(value="pageNo",required=false) Integer pageNo,
 			@RequestParam(value="search",required=false) String search){
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/books")
 											.queryParam("pageNo", pageNo)
 											.queryParam("search", search);
 		HttpHeaders headers = new HttpHeaders();
-//		headers.set("Accept", "application/xml");
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET,entity,Object.class);
 		return res;
 	}
 	
 	@RequestMapping(value="/books/{bookId}", method=RequestMethod.GET)
-	public ResponseEntity<Object> getBookByPK(@PathVariable(value="bookId") Integer bookId){
+	public ResponseEntity<Object> getBookByPK(@RequestHeader(value="Accept") String ct,@PathVariable(value="bookId") Integer bookId){
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/books/"+bookId);
 		HttpHeaders headers = new HttpHeaders();
-		//headers.set("Accept", "application/xml");
-		headers.setAccept(mediaType);
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET,entity,Object.class);
 		return res;
@@ -70,37 +70,41 @@ public class AdminController{
 	
 	
 	@RequestMapping(value="/books/count",method=RequestMethod.GET)
-	public ResponseEntity<Object> getBookCount(@RequestParam(value="search",required=false)  String search)  {
+	public ResponseEntity<Object> getBookCount(@RequestHeader(value="Accept") String ct,@RequestParam(value="search",required=false)  String search)  {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/books/count/")
 				.queryParam("search", search);
 		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET,entity,Object.class);
 		return res;
 	}
 	
 	@RequestMapping(value="/books/{bookId}",method=RequestMethod.PUT)
-	public ResponseEntity<Object> updateBook(@RequestBody Book book, @PathVariable(value="bookId") Integer bookId)  {
+	public ResponseEntity<Object> updateBook(@RequestHeader(value="Accept") String ct,@RequestBody Book book, @PathVariable(value="bookId") Integer bookId)  {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/books/"+bookId);
 		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(book,headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.PUT,entity,Object.class);
 		return res;
 	}
 	
 	@RequestMapping(value="/books/{bookId}", method=RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteBookByPK(@PathVariable("bookId") Integer bookId)  {
+	public ResponseEntity<Object> deleteBookByPK(@RequestHeader(value="Accept") String ct,@PathVariable("bookId") Integer bookId)  {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/books/"+bookId);
 		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.DELETE,entity,Object.class);
 		return res;
 	}
 	
 	@RequestMapping(value="/books", method=RequestMethod.POST)
-	public ResponseEntity<Object> addBook(@RequestBody Book book)  {
+	public ResponseEntity<Object> addBook(@RequestHeader(value="Accept") String ct, @RequestBody Book book)  {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/books");
 		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(book,headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.POST,entity,Object.class);
 		return res;
@@ -110,21 +114,23 @@ public class AdminController{
 	 * Admin Author
 	 */
 	@RequestMapping(value="/authors", method=RequestMethod.GET)
-	public ResponseEntity<Object> getAuthors(@RequestParam(value="pageNo",required=false) Integer pageNo,
+	public ResponseEntity<Object> getAuthors(@RequestHeader(value="Accept") String ct,@RequestParam(value="pageNo",required=false) Integer pageNo,
 			@RequestParam(value="search",required=false) String search){
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/authors")
 											.queryParam("pageNo", pageNo)
 											.queryParam("search", search);
 		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET,entity,Object.class);
 		return res;
 	}
 	
 	@RequestMapping(value="/authors/{authorId}", method=RequestMethod.GET)
-	public ResponseEntity<Object> getAuthorByPK(@PathVariable(value="authorId") Integer authorId){
+	public ResponseEntity<Object> getAuthorByPK(@RequestHeader(value="Accept") String ct,@PathVariable(value="authorId") Integer authorId){
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/authors/"+authorId);
 		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET,entity,Object.class);
 		return res;
@@ -132,37 +138,41 @@ public class AdminController{
 	
 	
 	@RequestMapping(value="/authors/count",method=RequestMethod.GET)
-	public ResponseEntity<Object> getAuthorCount(@RequestParam(value="search",required=false)  String search)  {
+	public ResponseEntity<Object> getAuthorCount(@RequestHeader(value="Accept") String ct,@RequestParam(value="search",required=false)  String search)  {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/authors/count/")
 				.queryParam("search", search);
 		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET,entity,Object.class);
 		return res;
 	}
 	
 	@RequestMapping(value="/authors/{authorId}",method=RequestMethod.PUT)
-	public ResponseEntity<Object> updateAuthor(@RequestBody Author author, @PathVariable(value="authorId") Integer authorId)  {
+	public ResponseEntity<Object> updateAuthor(@RequestHeader(value="Accept") String ct,@RequestBody Author author, @PathVariable(value="authorId") Integer authorId)  {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/authors/"+authorId);
 		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(author,headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.PUT,entity,Object.class);
 		return res;
 	}
 	
 	@RequestMapping(value="/authors/{authorId}", method=RequestMethod.DELETE)
-	public ResponseEntity<Object> deleteAuthorByPK(@PathVariable("authorId") Integer authorId)  {
+	public ResponseEntity<Object> deleteAuthorByPK(@RequestHeader(value="Accept") String ct,@PathVariable("authorId") Integer authorId)  {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/authors/"+authorId);
 		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.DELETE,entity,Object.class);
 		return res;
 	}
 	
 	@RequestMapping(value="/authors", method=RequestMethod.POST)
-	public ResponseEntity<Object> addAuthor(@RequestBody Author author)  {
+	public ResponseEntity<Object> addAuthor(@RequestHeader(value="Accept") String ct,@RequestBody Author author)  {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/authors");
 		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(author,headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.POST,entity,Object.class);
 		return res;

@@ -3,6 +3,8 @@
  */
 package com.gcit.library.controllers;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -12,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,24 +38,24 @@ public class LibrarianController {
 	@Autowired
 	RestTemplate restTemplate;
 	
-	@RequestMapping(value="/branches", method=RequestMethod.GET,produces="application/json")
-	public ResponseEntity<Object> getBranchs(@RequestParam(value="pageNo",required=false) Integer pageNo,
+	@RequestMapping(value="/branches", method=RequestMethod.GET)
+	public ResponseEntity<Object> getBranchs(@RequestHeader(value="Accept") String ct,@RequestParam(value="pageNo",required=false) Integer pageNo,
 			@RequestParam(value="search",required=false) String search){
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/branches")
 											.queryParam("pageNo", pageNo)
 											.queryParam("search", search);
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET,entity,Object.class);
 		return res;
 	}
 	
-	@RequestMapping(value="/branches/{branchId}", method=RequestMethod.GET,produces="application/json")
-	public ResponseEntity<Object> getBranchByPK(@PathVariable(value="branchId") Integer branchId){
+	@RequestMapping(value="/branches/{branchId}", method=RequestMethod.GET)
+	public ResponseEntity<Object> getBranchByPK(@RequestHeader(value="Accept") String ct, @PathVariable(value="branchId") Integer branchId){
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/branches/"+branchId);
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET,entity,Object.class);
 		return res;
@@ -70,11 +73,11 @@ public class LibrarianController {
 //		return res;
 //	}
 	
-	@RequestMapping(value="/branches/{branchId}",method=RequestMethod.PUT, consumes = {"application/json"},produces= {"application/json"})
-	public ResponseEntity<Object> updateBranch(@RequestBody Branch branch, @PathVariable(value="branchId") Integer branchId)  {
+	@RequestMapping(value="/branches/{branchId}",method=RequestMethod.PUT)
+	public ResponseEntity<Object> updateBranch(@RequestHeader(value="Accept") String ct, @RequestBody Branch branch, @PathVariable(value="branchId") Integer branchId)  {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/branches/"+branchId);
 		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.set("Accept", ct);
 		HttpEntity<?> entity = new HttpEntity<>(branch,headers);
 		ResponseEntity<Object> res = restTemplate.exchange(builder.build().toUri(), HttpMethod.PUT,entity,Object.class);
 		return res;
