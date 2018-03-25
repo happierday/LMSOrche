@@ -37,7 +37,9 @@ public class AdminController{
 	RestTemplate restTemplate;
 	
 	@Value("${admin.url}")
-	private String url;
+	private String adminUrl;
+	
+	private String url = "http://"+adminUrl;
 	
 	@Autowired
 	List<MediaType> mediaType;
@@ -48,7 +50,7 @@ public class AdminController{
 	@RequestMapping(value="/books", method=RequestMethod.GET)
 	public ResponseEntity<Object> getBooks(@RequestHeader(value="Accept") String ct,@RequestParam(value="pageNo",required=false) Integer pageNo,
 			@RequestParam(value="search",required=false) String search){
-		UriComponentsBuilder builder = UriComponentsBuilder.fromPath(url+"/books")
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/books")
 											.queryParam("pageNo", pageNo)
 											.queryParam("search", search);
 		HttpHeaders headers = new HttpHeaders();
