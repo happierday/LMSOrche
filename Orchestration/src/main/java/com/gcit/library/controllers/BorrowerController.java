@@ -41,20 +41,19 @@ public class BorrowerController {
 		return res;
 	}
 	
-	@RequestMapping(value="/borrowers", method=RequestMethod.GET,produces="application/json")
-	public ResponseEntity<Object> getBorrowers(@RequestParam(value="pageNo",required=false) Integer pageNo,
-			@RequestParam(value="search",required=false) String search){
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/borrowers")
-											.queryParam("pageNo", pageNo)
-											.queryParam("search", search);
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-		HttpEntity<?> entity = new HttpEntity<>(headers);
-		ResponseEntity<Object> res = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET,entity,Object.class);
-		return res;
-	}
+//	@RequestMapping(value="/borrowers", method=RequestMethod.GET)
+//	public ResponseEntity<Object> getBorrowers(@RequestParam(value="pageNo",required=false) Integer pageNo,
+//			@RequestParam(value="search",required=false) String search){
+//		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/borrowers")
+//											.queryParam("pageNo", pageNo)
+//											.queryParam("search", search);
+//		HttpHeaders headers = new HttpHeaders();
+//		HttpEntity<?> entity = new HttpEntity<>(headers);
+//		ResponseEntity<Object> res = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET,entity,Object.class);
+//		return res;
+//	}
 	
-	@RequestMapping(value="/borrowers/{cardNo}", method=RequestMethod.GET,produces="application/json")
+	@RequestMapping(value="/borrowers/{cardNo}", method=RequestMethod.GET)
 	public ResponseEntity<Object> getBorrowerHistory(@PathVariable(value="cardNo") Integer cardNo){
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/borrowers/"+cardNo);
 		HttpHeaders headers = new HttpHeaders();

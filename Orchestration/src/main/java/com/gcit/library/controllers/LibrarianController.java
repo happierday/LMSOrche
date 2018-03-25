@@ -35,9 +35,6 @@ public class LibrarianController {
 	@RequestMapping(value="/branches", method=RequestMethod.GET,produces="application/json")
 	public ResponseEntity<Object> getBranchs(@RequestParam(value="pageNo",required=false) Integer pageNo,
 			@RequestParam(value="search",required=false) String search){
-//		System.out.println("Orc");
-//		System.out.println("search: " + search);
-//		System.out.println("pageNo: " + pageNo);
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url+"/branches")
 											.queryParam("pageNo", pageNo)
 											.queryParam("search", search);
