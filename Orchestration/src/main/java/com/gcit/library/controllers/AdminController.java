@@ -37,9 +37,9 @@ public class AdminController{
 	RestTemplate restTemplate;
 	
 	@Value("${admin.url}")
-	private String adminUrl;
+	private String url;
 	
-	private String url = "http://"+adminUrl;
+//	private String url = "http://"+adminUrl;
 	
 	@Autowired
 	List<MediaType> mediaType;

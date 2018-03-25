@@ -33,9 +33,9 @@ import com.gcit.library.model.Branch;
 public class LibrarianController {
 	
 	@Value("${librarian.url}")
-	private String liburl;
+	private String url;
 	
-	private String url = "http://"+liburl;
+//	private String url = "http://"+liburl;
 	
 	@Autowired
 	RestTemplate restTemplate;

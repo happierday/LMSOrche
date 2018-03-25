@@ -30,9 +30,9 @@ import com.gcit.library.model.Loan;
 public class BorrowerController {
 	
 	@Value("${borrower.url}")
-	private String borrowerurl;
+	private String url;
 	
-	private String url = "http://"+borrowerurl;
+//	private String url = "http://"+borrowerurl;
 	
 	@Autowired
 	RestTemplate restTemplate;
