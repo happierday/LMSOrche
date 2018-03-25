@@ -6,6 +6,7 @@ package com.gcit.library.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -31,17 +32,18 @@ import com.gcit.library.model.Book;
 @RestController
 public class AdminController{
 	
-	private String url = "http://localhost:8081";
-	
 	@Autowired
 	RestTemplate restTemplate;
 	
+	@Value("${admin.url}")
+	private String url;
 	
 	@Autowired
 	List<MediaType> mediaType;
 	/*
 	 * Admin Book Services
 	 */
+	
 	@RequestMapping(value="/books", method=RequestMethod.GET)
 	public ResponseEntity<Object> getBooks(@RequestParam(value="pageNo",required=false) Integer pageNo,
 			@RequestParam(value="search",required=false) String search){

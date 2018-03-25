@@ -4,6 +4,7 @@
 package com.gcit.library.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -26,7 +27,9 @@ import com.gcit.library.model.Loan;
  */
 @RestController
 public class BorrowerController {
-	private String url = "http://localhost:8083";
+	
+	@Value("${borrower.url}")
+	private String url;
 	
 	@Autowired
 	RestTemplate restTemplate;
